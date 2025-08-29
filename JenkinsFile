@@ -1,0 +1,24 @@
+pipeline {
+    agent any // Run on any available Jenkins agent
+    stages {
+        stage('Clone Code') {
+            steps {
+                // Clones the repository code into the Jenkins workspace
+                git 'https://github.com/prshntrajput/learnDevops'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // We build a Docker image and give it a name (tag)
+                    // The BUILD_NUMBER is a variable provided by Jenkins
+                    docker.build("prashanthash/my-first-app:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+        // In the real world, you would add more stages like:
+        // stage('Test Image') { ... }
+        // stage('Push Image to Registry') { ... }
+        // stage('Deploy to Production') { ... }
+    }
+}
